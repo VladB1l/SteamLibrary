@@ -1,170 +1,55 @@
 import { type SteamGamesResponse, fetchData } from "./types/fetchData";
-import { type SteamGame, extractGenres } from "./types/SteamGame";
+import { type SteamGame } from "./types/SteamGame";
+import { renderGame, setupGameCardClick } from "./utils/gameUtils";
 
 let data: SteamGamesResponse;
 let gamesListData: SteamGame[] = [];
 
 let gameListContainer = document.querySelector(".gameList") as HTMLElement;
 
-let currentPage = 0;
-const PAGE_SIZE = 20;
-
-const loader = document.createElement("div");
-loader.id = "loader";
-loader.textContent = "Loading...";
-document.body.appendChild(loader);
-
-function showLoader() {
-  loader.style.display = "block";
-}
-
-function hideLoader() {
-  loader.style.display = "none";
-}
-
 async function getData(): Promise<void> {
   try {
-    showLoader();
-    data = await fetchData("http://127.0.0.1:4000/api/getFileData");
+    document.getElementById("gamesLoader")!.style.display = "block";
+
+    data = await fetchData("http://127.0.0.1:4000/api/top20");
     gamesListData = data.games;
 
-    gamesListData.sort((a, b) => b.meta_score - a.meta_score);
-    gamesListData = gamesListData.slice(0, 20);
-
-    renderPage(currentPage);
-    renderGenres();
+    renderPage(gamesListData);
   } catch (e) {
     console.log(e);
   } finally {
-    hideLoader();
+    document.getElementById("gamesLoader")!.style.display = "none";
   }
 }
 
-function renderPage(page: number): void {
-  if (!gameListContainer || !gamesListData) return;
+function renderPage(games: SteamGame[]): void {
+  if (!gameListContainer || !gamesListData) {
+    return;
+  }
 
   gameListContainer.innerHTML = "";
 
-  const start = page * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const pageGames = gamesListData.slice(start, end);
-
-  pageGames.forEach((game) => {
+  const fragment = document.createDocumentFragment();
+  games.forEach((game) => {
     const gameElement = renderGame(game);
-    gameElement && gameListContainer.append(gameElement);
+    gameElement && fragment.append(gameElement);
   });
+  gameListContainer.append(fragment);
 
   // updatePagination(page);
 }
 
-function renderGame(game: SteamGame): HTMLElement {
-  const gameCard = document.createElement("div");
-  gameCard.classList.add("gameCard");
+function setupGenreLinks(): void {
+  const genreButtons = document.querySelectorAll(".genreButton");
 
-  const gameImg = document.createElement("div");
-  gameImg.classList.add("gameImg");
-  const verticalImg = `https://steamcdn-a.akamaihd.net/steam/apps/${game.sid}/library_600x900_2x.jpg`;
-  gameImg.style.backgroundImage = `url(${verticalImg})`;
-
-  const priceContainer = document.createElement("div");
-  priceContainer.classList.add("gamePriceContainer");
-
-  const discountDiv = document.createElement("div");
-  discountDiv.classList.add("gameDiscount");
-  const discount = game.discount || 0;
-  discountDiv.textContent = `-${discount}%`;
-
-  const priceDiv = document.createElement("div");
-  priceDiv.classList.add("gamePrice");
-
-  const fullPriceP = document.createElement("p");
-  fullPriceP.classList.add("fullGamePrice");
-  const fullPriceText = game.full_price
-    ? `${(game.full_price / 100).toFixed(2)}€`
-    : "";
-  fullPriceP.textContent = fullPriceText;
-
-  const currentPriceP = document.createElement("p");
-  currentPriceP.classList.add("currentGamePrice");
-  let currentPriceText: string;
-  if (game.current_price === null || game.current_price === 0) {
-    currentPriceText = "Free To Play";
-  } else {
-    currentPriceText = `${(game.current_price / 100).toFixed(2)}€`;
-  }
-  currentPriceP.textContent = currentPriceText;
-
-  priceDiv.append(fullPriceP, currentPriceP);
-
-  const isDiscounted = discount > 0;
-  const isFree = game.current_price === null || game.current_price === 0;
-
-  if (!isDiscounted) {
-    discountDiv.classList.add("display-none");
-    fullPriceP.classList.add("display-none");
-  }
-  if (isFree) {
-    fullPriceP.classList.add("display-none");
-  }
-
-  priceContainer.append(discountDiv, priceDiv);
-
-  const gameDetails = document.createElement("div");
-  gameDetails.classList.add("gameDetails");
-
-  const gameTitle = document.createElement("p");
-  gameTitle.classList.add("gameTitle");
-  gameTitle.textContent = game.name;
-  gameDetails.append(gameTitle);
-
-  gameCard.append(gameImg, priceContainer, gameDetails);
-  return gameCard;
-}
-
-function renderGenres(): void {
-  const genresLoader = document.getElementById("genresLoader") as HTMLElement;
-  const genresContainer = document.getElementById(
-    "genresContainer",
-  ) as HTMLElement;
-
-  if (!genresContainer || !genresLoader) return;
-
-  genresLoader.style.display = "block";
-
-  setTimeout(() => {
-    const genres = extractGenres(gamesListData);
-    genresContainer.innerHTML = "";
-
-    genres.forEach((genre) => {
-      const button = document.createElement("button");
-      button.textContent = genre;
-      button.classList.add("genreButton");
-      button.addEventListener("click", () => {
-        console.log(`Navigate to genre: ${genre}`);
-      });
-      genresContainer.appendChild(button);
+  genreButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const genre = (btn.textContent || "").trim().toLowerCase();
+      console.log("Переход к жанру:", genre);
+      window.location.href = `./pages/genre/genre.html#genre/${genre}`;
     });
-
-    genresLoader.style.display = "none";
-  }, 300);
+  });
 }
-
-// function updatePagination(page: number): void {
-//   const totalPages = Math.ceil(gamesListData.length / PAGE_SIZE);
-//   const pagination = document.getElementById("pagination") as HTMLElement;
-//   pagination.innerHTML = `
-//     <button id="prev" ${page === 0 ? "disabled" : ""}>⯇</button>
-//     <span> Page ${page + 1} of ${totalPages}</span>
-//     <button id="next" ${page === totalPages - 1 ? "disabled" : ""}>⯈</button>
-//   `;
-
-//   document
-//     .getElementById("prev")
-//     ?.addEventListener("click", () => renderPage(page - 1));
-//   document
-//     .getElementById("next")
-//     ?.addEventListener("click", () => renderPage(page + 1));
-// }
 
 // function formatDate(date: string): string {
 //   let newDate = new Date(date).toLocaleDateString("en-US", {
@@ -198,4 +83,6 @@ function renderGenres(): void {
 
 window.addEventListener("load", () => {
   getData();
+  setupGenreLinks();
+  setupGameCardClick(gameListContainer);
 });

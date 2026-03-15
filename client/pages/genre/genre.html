@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Racing Games - Steam Top</title>
+    <link rel="stylesheet" href="../../global.style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="genreTitle">Loading...</h1>
+
+        <div id="gamesLoader" style="display: none;">Loading games...</div>
+
+        <div class="gameList" id="gameList"></div>
+
+        <div id="loadMoreContainer" style="text-align: center; margin: 20px 0;">
+            <button id="loadMore" style="display: none; padding: 10px 20px; font-size: 16px;">
+                Load more games
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="../../src/pages/genre.ts"></script>
+</body>
+
+</html>

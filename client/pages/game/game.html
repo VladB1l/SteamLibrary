@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="gameTitle">Loading...</title>
+    <link rel="stylesheet" href="../../global.style.css">
+    <link rel="stylesheet" href="game.style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="gamePageContainer">
+        <div id="gamesLoader" class="loader">Loading game...</div>
+
+        <div id="gamePage" class="gamePage" style="display: none;">
+            <div class="gameHeader">
+                <div class="gameHero">
+                    <div class="heroImage">
+                        <img id="gameHeroImg" alt="Game Header">
+                    </div>
+                    <div class="heroContent">
+                        <h1 id="gameName"></h1>
+                        <div class="gameTags">
+                            <span id="gameGenres"></span>
+                            <span id="gamePlatforms"></span>
+                        </div>
+                        <div class="gamePriceSection">
+                            <div id="gamePrice"></div>
+                            <a class="steamButton" target="_blank">View on Steam</a>
+                        </div>
+                        <div class="gameScores">
+                            <span id="metaScore"></span>
+                            <span id="userScore"></span>
+                        </div>
+
+                    </div>
+                </div>
+                <ul class="gameTagsList">
+
+                </ul>
+            </div>
+
+            <div class="gameDescription">
+                <h2>About This Game</h2>
+                <p id="gameDesc"></p>
+            </div>
+
+            <div class="gameDetailsGrid">
+                <div class="detailItem">
+                    <strong>Developers:</strong>
+                    <span id="developers"></span>
+                </div>
+                <div class="detailItem">
+                    <strong>Publishers:</strong>
+                    <span id="publishers"></span>
+                </div>
+                <div class="detailItem">
+                    <strong>Languages:</strong>
+                    <span id="languages"></span>
+                </div>
+                <div class="detailItem">
+                    <strong>Voiceovers:</strong>
+                    <span id="voiceovers"></span>
+                </div>
+            </div>
+        </div>
+
+        <a href="./index.html" class="backButton">← Back to Games</a>
+    </div>
+
+    <script type="module" src="../../src/pages/game.ts"></script>
+</body>
+
+</html>

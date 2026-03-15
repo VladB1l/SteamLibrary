@@ -4,7 +4,8 @@ interface SteamGame {
   store_promo_url: string;
   store_uscore: number;
   published_store: string;
-  image: string;
+  imageHor: string;
+  imageVer: string;
   name: string;
   description: string;
   full_price: number;
@@ -23,17 +24,4 @@ interface SteamGame {
   meta_uscore: number;
 }
 
-function extractGenres(games: SteamGame[]): string[] {
-  const genresSet = new Set<string>();
-
-  games.forEach((game) => {
-    const genres = game.genres.split(",").map((genre) => genre.trim());
-    genres.forEach((genre) => {
-      if (genre) genresSet.add(genre);
-    });
-  });
-
-  return Array.from(genresSet).sort();
-}
-
-export { type SteamGame, extractGenres };
+export { type SteamGame };

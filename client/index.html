@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.style.css">
+    <link rel="stylesheet" href="global.style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -15,20 +16,30 @@
 
 <body>
     <h1>Steam Library</h1>
+    <h2>All Genres:</h2>
+
+    <ul class="genresList">
+        <li class="genreButton">Action</li>
+        <li class="genreButton">Indie</li>
+        <li class="genreButton">Strategy</li>
+        <li class="genreButton">RPG</li>
+        <li class="genreButton">Casual</li>
+        <li class="genreButton">Simulation</li>
+        <li class="genreButton">Racing</li>
+        <li class="genreButton">Adventure</li>
+        <li class="genreButton">Free to Play</li>
+        <li class="genreButton">Sports</li>
+    </ul>
 
     <div>
         <h2>Best Games:</h2>
-        <div id="loader" style="display: none;">Loading...</div>
+        <div id="gamesLoader" class="loader">Loading...</div>
         <div class="gameList"></div>
         <div id="pagination"></div>
     </div>
 
-    <div>
-        <h2>All Genres:</h2>
-        <div id="genresLoader" style="display: none;">Loading...</div>
-        <div id="genresContainer"></div>
-    </div>
-
+    <button id="loadMore" style="display: none; margin: 20px auto; padding: 10px 20px; font-size: 16px;">Load more
+        games</button>
 
     <script type="module" src="./src/main.ts"></script>
 </body>

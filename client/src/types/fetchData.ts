@@ -2,6 +2,9 @@ import { type SteamGame } from "./SteamGame";
 
 interface SteamGamesResponse {
   total: number;
+  page: number;
+  totalPages: number;
+  genre: string;
   games: SteamGame[];
 }
 
