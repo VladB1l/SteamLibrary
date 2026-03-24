@@ -9,13 +9,13 @@ class GameController {
         })
     }
 
-    getGameById(req, res) {
+    async getGameById(req, res) {
         const { id } = req.query
         if (!id) {
             return res.status(400).json({ error: 'ID required' })
         }
 
-        const gameId = parseInt(id)
+        const gameId = parseInt(id, 10)
         const games = getCachedGames()
         const game = games.find(game => game.sid === gameId)
 
@@ -23,8 +23,32 @@ class GameController {
             return res.status(404).json({ error: 'Game not found' })
         }
 
-        res.json(game)
+        const appid = game.sid
+        const apiUrl = `https://store.steampowered.com/api/appdetails?appids=${appid}`
+
+        try {
+            const response = await fetch(apiUrl)
+            if (!response.ok) {
+                console.error('Steam API error status:', response.status)
+                return res.json(game)
+            }
+
+            const data = await response.json()
+            const appData = data[appid]?.data
+            const success = data[appid]?.success
+
+            if (success && appData) {
+                game.screenshots = appData.screenshots || []
+                game.movies = appData.movies || []
+            }
+
+            return res.json(game)
+        } catch (e) {
+            console.error('Steam fetch error:', e)
+            return res.json(game)
+        }
     }
+
 
     getTop20Games(req, res) {
         const games = getCachedGames()

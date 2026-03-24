@@ -1,6 +1,7 @@
 import { type SteamGamesResponse, fetchData } from "../types/fetchData";
 import { type SteamGame } from "../types/SteamGame";
 import { renderGame, setupGameCardClick } from "../utils/gameUtils";
+import { initHeader } from "../components/header";
 
 let currentPage = 0;
 let currentGenre = "";
@@ -64,7 +65,8 @@ function loadNextPage(): void {
 }
 
 loadMoreBtn?.addEventListener("click", loadNextPage);
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   initGenrePage();
+  initHeader();
   setupGameCardClick(gameListContainer);
 });

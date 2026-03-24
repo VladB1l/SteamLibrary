@@ -15,31 +15,82 @@
 </head>
 
 <body>
-    <h1>Steam Library</h1>
-    <h2>All Genres:</h2>
+    <header class="header">
+        <div class="headerContainer">
+            <div class="headerLogo">
+                <h1 class="logoText">Steam Library</h1>
+            </div>
 
-    <ul class="genresList">
-        <li class="genreButton">Action</li>
-        <li class="genreButton">Indie</li>
-        <li class="genreButton">Strategy</li>
-        <li class="genreButton">RPG</li>
-        <li class="genreButton">Casual</li>
-        <li class="genreButton">Simulation</li>
-        <li class="genreButton">Racing</li>
-        <li class="genreButton">Adventure</li>
-        <li class="genreButton">Free to Play</li>
-        <li class="genreButton">Sports</li>
-    </ul>
+            <div class="headerSearch">
+                <div class="searchContainer">
+                    <svg class="searchIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                    <input type="text" class="searchInput" placeholder="Search games..." readonly>
+                </div>
+            </div>
 
-    <div>
-        <h2>Best Games:</h2>
-        <div id="gamesLoader" class="loader">Loading...</div>
-        <div class="gameList"></div>
-        <div id="pagination"></div>
-    </div>
+            <div class="headerUser">
+                <div class="userBalance">€0.00</div>
+                <div class="userProfile">
+                    <img class="userAvatar" src="https://via.placeholder.com/40x40/2b4361/ffffff?text=?"
+                        alt="User Avatar">
+                    <span class="userName">LOGIN</span>
+                    <svg class="dropdownIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                    <div class="userDropdown">
+                        <a href="#" class="dropdownItem" data-action="logout">Logout</a>
+                        <a href="#" class="dropdownItem" data-action="topup">Top Up Balance</a>
+                    </div>
+                </div>
+                <div class="balanceModal" id="balanceModal">
+                    <div class="modalContent">
+                        <h2 class="modalTitle">Add Funds</h2>
+                        <div class="balanceInputGroup">
+                            <span class="euroIcon">€</span>
+                            <input type="number" class="balanceInput" id="balanceAmount" placeholder="0.00" min="0.00"
+                                step="0.01">
+                        </div>
+                        <div class="modalButtons">
+                            <button class="modalBtn btnCancel" id="cancelTopup">Cancel</button>
+                            <button class="modalBtn btnConfirm" id="confirmTopup">Add Funds</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </header>
 
-    <button id="loadMore" style="display: none; margin: 20px auto; padding: 10px 20px; font-size: 16px;">Load more
-        games</button>
+    <main>
+
+        <div>
+            <h2>Genres</h2>
+            <ul class="genresList">
+                <li class="activeButton">Action</li>
+                <li class="activeButton">Indie</li>
+                <li class="activeButton">Strategy</li>
+                <li class="activeButton">RPG</li>
+                <li class="activeButton">Casual</li>
+                <li class="activeButton">Simulation</li>
+                <li class="activeButton">Racing</li>
+                <li class="activeButton">Adventure</li>
+                <li class="activeButton">Free to Play</li>
+                <li class="activeButton">Sports</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Best Games</h2>
+            <div id="gamesLoader" class="loader">Loading...</div>
+            <div class="gameList"></div>
+            <div id="pagination"></div>
+        </div>
+
+        <button id="loadMore" style="display: none; margin: 20px auto; padding: 10px 20px; font-size: 16px;">Load more
+            games</button>
+    </main>
+
 
     <script type="module" src="./src/main.ts"></script>
 </body>

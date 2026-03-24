@@ -15,64 +15,128 @@
 </head>
 
 <body>
-    <div class="gamePageContainer">
-        <div id="gamesLoader" class="loader">Loading game...</div>
+    <header class="header">
+        <div class="headerContainer">
+            <div class="headerLogo">
+                <h1 class="logoText">Steam Library</h1>
+            </div>
 
-        <div id="gamePage" class="gamePage" style="display: none;">
-            <div class="gameHeader">
-                <div class="gameHero">
-                    <div class="heroImage">
-                        <img id="gameHeroImg" alt="Game Header">
+            <div class="headerSearch">
+                <div class="searchContainer">
+                    <svg class="searchIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                    </svg>
+                    <input type="text" class="searchInput" placeholder="Search games..." readonly>
+                </div>
+            </div>
+
+            <div class="headerUser">
+                <div class="userBalance">€0.00</div>
+                <div class="userProfile">
+                    <img class="userAvatar" src="https://via.placeholder.com/40x40/2b4361/ffffff?text=?"
+                        alt="User Avatar">
+                    <span class="userName">LOGIN</span>
+                    <svg class="dropdownIcon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z" />
+                    </svg>
+                    <div class="userDropdown">
+                        <a href="#" class="dropdownItem" data-action="logout">Logout</a>
+                        <a href="#" class="dropdownItem" data-action="topup">Top Up Balance</a>
                     </div>
-                    <div class="heroContent">
-                        <h1 id="gameName"></h1>
-                        <div class="gameTags">
-                            <span id="gameGenres"></span>
-                            <span id="gamePlatforms"></span>
+                </div>
+                <div class="balanceModal" id="balanceModal">
+                    <div class="modalContent">
+                        <h2 class="modalTitle">Add Funds</h2>
+                        <div class="balanceInputGroup">
+                            <span class="euroIcon">€</span>
+                            <input type="number" class="balanceInput" id="balanceAmount" placeholder="0.00" min="0.00"
+                                step="0.01">
                         </div>
-                        <div class="gamePriceSection">
-                            <div id="gamePrice"></div>
-                            <a class="steamButton" target="_blank">View on Steam</a>
+                        <div class="modalButtons">
+                            <button class="modalBtn btnCancel" id="cancelTopup">Cancel</button>
+                            <button class="modalBtn btnConfirm" id="confirmTopup">Add Funds</button>
                         </div>
-                        <div class="gameScores">
-                            <span id="metaScore"></span>
-                            <span id="userScore"></span>
-                        </div>
-
                     </div>
                 </div>
-                <ul class="gameTagsList">
+            </div>
+    </header>
+    <main>
+        <div class="gamePageContainer">
+            <div id="gamesLoader" class="loader">Loading game...</div>
 
-                </ul>
+            <div id="gamePage" class="gamePage" style="display: none;">
+                <div class="gameHeader">
+                    <div class="gameHero">
+                        <div class="heroImage">
+                            <img id="gameHeroImg" alt="Game Header">
+                        </div>
+                        <div class="heroContent">
+                            <h1 id="gameName"></h1>
+                            <div class="gameTags">
+                                <span id="gameGenres"></span>
+                                <span id="gamePlatforms"></span>
+                            </div>
+                            <div class="gamePriceSection">
+                                <div id="gamePrice"></div>
+                                <a class="steamButton activeButton" target="_blank">View on Steam</a>
+                            </div>
+                            <div class="gameScores">
+                                <span id="metaScore"></span>
+                                <span id="userScore"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <ul class="gameTagsList">
+
+                    </ul>
+                </div>
+
+                <div class="mediaSlider">
+                    <button class="sliderBtn prevBtn">‹</button>
+                    <div class="sliderContainer">
+                        <div class="sliderTrack" id="sliderTrack"></div>
+                    </div>
+                    <button class="sliderBtn nextBtn">›</button>
+                    <div class="sliderCounter">
+                        <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+                    </div>
+                </div>
+
+
+                <div class="gameDescription">
+                    <h2>About This Game</h2>
+                    <p id="gameDesc"></p>
+                </div>
+
+                <div class="gameDetailsGrid">
+                    <div class="detailItem">
+                        <strong>Developers:</strong>
+                        <span id="developers"></span>
+                    </div>
+                    <div class="detailItem">
+                        <strong>Publishers:</strong>
+                        <span id="publishers"></span>
+                    </div>
+                    <div class="detailItem">
+                        <strong>Languages:</strong>
+                        <span id="languages"></span>
+                    </div>
+                    <div class="detailItem">
+                        <strong>Voiceovers:</strong>
+                        <span id="voiceovers"></span>
+                    </div>
+                    <div class="detailItem">
+                        <strong>Date:</strong>
+                        <span id="publishDate"></span>
+                    </div>
+                </div>
             </div>
 
-            <div class="gameDescription">
-                <h2>About This Game</h2>
-                <p id="gameDesc"></p>
-            </div>
-
-            <div class="gameDetailsGrid">
-                <div class="detailItem">
-                    <strong>Developers:</strong>
-                    <span id="developers"></span>
-                </div>
-                <div class="detailItem">
-                    <strong>Publishers:</strong>
-                    <span id="publishers"></span>
-                </div>
-                <div class="detailItem">
-                    <strong>Languages:</strong>
-                    <span id="languages"></span>
-                </div>
-                <div class="detailItem">
-                    <strong>Voiceovers:</strong>
-                    <span id="voiceovers"></span>
-                </div>
-            </div>
+            <a href="/index.html" class="backButton activeButton">← Back to Games</a>
         </div>
-
-        <a href="./index.html" class="backButton">← Back to Games</a>
-    </div>
+    </main>
 
     <script type="module" src="../../src/pages/game.ts"></script>
 </body>
