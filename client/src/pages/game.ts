@@ -21,7 +21,7 @@ async function loadGame(): Promise<void> {
       throw new Error("Game ID not found");
     }
 
-    const response = await fetch(`http://127.0.0.1:4000/api/game?id=${gameId}`);
+    const response = await fetch(`https://steam-jet.vercel.app/api/game?id=${gameId}`);
     const game: SteamGame = await response.json();
 
     renderGamePage(game);

@@ -1,12 +1,18 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  server: {
-    port: 5500,
-    open: true,
-  },
+  publicDir: false,
   build: {
     outDir: "dist",
-    sourcemap: false,
+    emptyOutDir: true,
+    assetsDir: "assets",
+    rollupOptions: {
+      input: {
+        index: "index.html",
+        genre: "pages/genre/genre.html",
+        game: "pages/game/game.html",
+      },
+    },
   },
+  base: "/",
 });

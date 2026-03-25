@@ -16,7 +16,7 @@ export async function initHeader(): Promise<void> {
 
 function setupEvents(): void {
   document.querySelector(".headerLogo")?.addEventListener("click", () => {
-    window.location.href = "./index.html";
+    window.location.href = "/index.html";
   });
 
   const userProfile = document.querySelector(
