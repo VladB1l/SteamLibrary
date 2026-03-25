@@ -16,6 +16,8 @@ async function getData(): Promise<void> {
     gamesListData = data.games;
 
     renderPage(gamesListData);
+
+    initHeader();
   } catch (e) {
     console.log(e);
   } finally {
@@ -36,7 +38,6 @@ function renderPage(games: SteamGame[]): void {
     gameElement && fragment.append(gameElement);
   });
   gameListContainer.append(fragment);
-
 }
 
 function setupGenreLinks(): void {
@@ -52,7 +53,6 @@ function setupGenreLinks(): void {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initHeader();
   getData();
   setupGenreLinks();
   gameListContainer = document.querySelector(".gameList") as HTMLElement | null;

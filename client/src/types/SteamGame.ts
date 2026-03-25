@@ -23,7 +23,6 @@ interface SteamGame {
   meta_score: number;
   meta_uscore: number;
   screenshots?: Screenshot[];
-  movies?: Movie[];
 }
 
 export interface Screenshot {
@@ -32,16 +31,8 @@ export interface Screenshot {
   path_full: string;
 }
 
-export interface Movie {
-  id: number;
-  name: string;
-  thumbnail: string;
-  hls_h264: string;
-  highlight: boolean;
-}
-
 interface MediaItem {
-  type: "image" | "video";
+  type: "image";
   src: string;
   name?: string;
 }

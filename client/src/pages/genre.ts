@@ -6,6 +6,9 @@ import { initHeader } from "../components/header";
 let currentPage = 0;
 let currentGenre = "";
 
+let data: SteamGamesResponse;
+let gamesListData: SteamGame[] = [];
+
 const gameListContainer = document.querySelector(".gameList") as HTMLElement;
 const loadMoreBtn = document.getElementById("loadMore") as HTMLButtonElement;
 const genreTitle = document.getElementById("genreTitle") as HTMLElement;
@@ -32,10 +35,11 @@ async function loadGamesPage(page: number): Promise<void> {
     loadMoreBtn.disabled = true;
 
     const url = `http://127.0.0.1:4000/api/genre?genre=${encodeURIComponent(currentGenre)}&page=${page}`;
-    const data: SteamGamesResponse = await fetchData(url);
+    data = await fetchData(url);
+    gamesListData = data.games;
 
     currentPage = page;
-    renderGames(data.games);
+    renderGames(gamesListData);
 
     loadMoreBtn.style.display =
       currentPage + 1 < data.totalPages ? "block" : "none";
@@ -65,8 +69,8 @@ function loadNextPage(): void {
 }
 
 loadMoreBtn?.addEventListener("click", loadNextPage);
-window.addEventListener("DOMContentLoaded", () => {
-  initGenrePage();
+window.addEventListener("DOMContentLoaded", async () => {
+  await initGenrePage();
   initHeader();
   setupGameCardClick(gameListContainer);
 });

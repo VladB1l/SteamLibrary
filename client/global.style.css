@@ -8,6 +8,7 @@
   --bg-primary: #1b2838;
   --bg-secondary: #2b4361;
   --bg-card: rgba(27, 40, 56, 0.7);
+  --bg-search: rgba(27, 40, 56, 0.9);
 
   --bg-gradient-dark: linear-gradient(
     180deg,
@@ -135,57 +136,6 @@ main > div {
 
 .logoText:hover {
   filter: drop-shadow(0 0 10px var(--accent-glow));
-}
-
-.headerSearch {
-  flex: 1;
-  max-width: 500px;
-  margin: 0 20px;
-  min-width: 200px;
-  box-sizing: border-box;
-}
-
-.searchContainer {
-  position: relative;
-  width: 100%;
-  height: 44px;
-  box-sizing: border-box;
-}
-
-.searchIcon {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-40%);
-  width: 20px;
-  height: 20px;
-  color: var(--accent-primary);
-}
-
-.searchInput {
-  width: 100%;
-  height: 100%;
-  padding: 0 20px 0 48px;
-  background: var(--bg-card);
-  border: 2px solid var(--accent-glow-20);
-  border-radius: 25px;
-  color: var(--text-secondary);
-  font-size: 16px;
-  font-weight: 500;
-  outline: none;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  display: block;
-}
-
-.searchInput:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 4px rgba(174, 209, 229, 0.1);
-  background: rgba(43, 67, 97, 0.8);
-}
-
-.searchInput::placeholder {
-  color: var(--text-muted);
 }
 
 .headerUser {
@@ -456,6 +406,133 @@ main > div {
     font-size: 16px;
     padding-left: calc(1.2em + 36px);
   }
+}
+
+/* ----------------------------------SerchDiv-------------------------------------------------------------------- */
+.headerSearch {
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
+  min-width: 200px;
+  box-sizing: border-box;
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+  height: 44px;
+  box-sizing: border-box;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-40%);
+  width: 20px;
+  height: 20px;
+  color: var(--accent-primary);
+}
+
+.searchInput {
+  width: 100%;
+  height: 100%;
+  padding: 0 20px 0 48px;
+  background: var(--bg-card);
+  border: 2px solid var(--accent-glow-20);
+  border-radius: 25px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  display: block;
+}
+
+.searchInput:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(174, 209, 229, 0.1);
+  background: rgba(43, 67, 97, 0.8);
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-search);
+  border-radius: 0 0 12px 12px;
+  border-top: 1px solid var(--accent-glow-20);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 100;
+  display: none;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.searchResult {
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--accent-glow-20);
+  transition: all 0.2s;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.searchResult:hover {
+  background: var(--accent-glow-20);
+  color: var(--accent-primary);
+}
+
+.searchResult mark {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.searchResult:last-child {
+  border-bottom: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.noResults {
+  padding: 24px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.searchResults::-webkit-scrollbar {
+  width: 6px;
+}
+
+.searchResults::-webkit-scrollbar-track {
+  background: var(--accent-glow-20);
+  border-radius: 3px;
+}
+
+.searchResults::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 3px;
 }
 
 /* ----------------------------------.gameCard-------------------------------------------------------------------- */

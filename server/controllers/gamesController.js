@@ -39,13 +39,12 @@ class GameController {
 
             if (success && appData) {
                 game.screenshots = appData.screenshots || []
-                game.movies = appData.movies || []
             }
 
             return res.json(game)
         } catch (e) {
             console.error('Steam fetch error:', e)
-            return res.json(game)
+            return res.status(400).json(e)
         }
     }
 
@@ -95,6 +94,29 @@ class GameController {
             totalPages: Math.ceil(total / limitNum),
             games
         })
+    }
+
+    searchGames(req, res) {
+        try {
+            const q = (req.query.q || '').toString().trim();
+            const limit = parseInt(req.query.limit, 10) || 20;
+
+            if (!q || q.length < 2) {
+                return res.json([])
+            }
+
+            const qLower = q.toLowerCase();
+            const games = getCachedGames()
+                .filter(game => game.name && game.name.toLowerCase().includes(qLower))
+                .slice(0, limit)
+
+
+            return res.json(games)
+        }
+        catch (e) {
+            console.error('Search error:', e)
+            return res.status(400).json(e)
+        }
     }
 
 }

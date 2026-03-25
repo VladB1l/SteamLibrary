@@ -41,9 +41,10 @@ function renderGamePage(game: SteamGame): void {
   document.getElementById("gameGenres")!.textContent = game.genres;
   document.getElementById("gamePlatforms")!.textContent = game.platforms;
   if (game.tags) {
+    const tagsContainer = document.querySelector(".gameTagsList")!;
+    tagsContainer.innerHTML = "";
     game.tags.split(",").forEach((element) => {
-      document.querySelector(".gameTagsList")!.innerHTML +=
-        `<li class="gameTagsListItem">${element}</li>`;
+      tagsContainer.innerHTML += `<li class="gameTagsListItem">${element}</li>`;
     });
   }
 
@@ -85,16 +86,9 @@ function renderMediaSlider(game: SteamGame): void {
   mediaItems = [];
   const media: MediaItem[] = [];
 
-  if (game.movies?.length) {
-    const highlightVideo = game.movies.find((movie) => movie.highlight);
-    if (highlightVideo?.hls_h264) {
-      media.push({
-        type: "video" as const,
-        src: highlightVideo.hls_h264,
-        name: highlightVideo.name,
-      });
-    }
-  }
+
+  const track = document.getElementById("sliderTrack") as HTMLElement;
+  if (track) track.innerHTML = "";
 
   game.screenshots?.forEach((screenshot) => {
     media.push({
@@ -103,34 +97,34 @@ function renderMediaSlider(game: SteamGame): void {
     });
   });
 
+  const mediaSliderEl = document.querySelector(
+    ".mediaSlider",
+  ) as HTMLElement | null;
+
   if (media.length === 0) {
+
+    if (mediaSliderEl) mediaSliderEl.style.display = "none";
+
+    const currentEl = document.getElementById("currentSlide");
+    const totalEl = document.getElementById("totalSlides");
+    if (currentEl) currentEl.textContent = "0";
+    if (totalEl) totalEl.textContent = "0";
     return;
   }
 
+  if (mediaSliderEl) mediaSliderEl.style.display = "block";
+
   mediaItems = media;
   currentSlide = 0;
-
-  const track = document.getElementById("sliderTrack")!;
-  track.innerHTML = "";
 
   media.forEach((item, index) => {
     const slide = document.createElement("div");
     slide.className = "sliderItem";
 
-    if (item.type === "video") {
-      const video = document.createElement("video");
-      video.src = item.src;
-      video.muted = true;
-      video.loop = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      slide.appendChild(video);
-    } else {
-      const img = document.createElement("img");
-      img.src = item.src;
-      img.alt = `Screenshot ${index + 1}`;
-      slide.appendChild(img);
-    }
+    const img = document.createElement("img");
+    img.src = item.src;
+    img.alt = `Screenshot ${index + 1}`;
+    slide.appendChild(img);
 
     track.appendChild(slide);
   });
@@ -172,4 +166,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   loadGame();
   initHeader();
+});
+
+window.addEventListener("hashchange", () => {
+  loadGame();
 });

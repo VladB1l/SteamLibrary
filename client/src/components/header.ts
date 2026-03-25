@@ -1,8 +1,17 @@
 import SteamAuth from "../classes/steamAuth";
+import { GameSearch } from "../classes/gameSearch";
 
-export function initHeader(): void {
+export async function initHeader(): Promise<void> {
   setupEvents();
   SteamAuth.init();
+
+  const searchContainer = document.querySelector(
+    ".headerSearch",
+  ) as HTMLElement | null;
+
+  if (!searchContainer) return;
+
+  await GameSearch.init(searchContainer);
 }
 
 function setupEvents(): void {

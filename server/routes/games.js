@@ -7,6 +7,7 @@ const gameController = GameController
 router.get('/top20', gameController.getTop20Games)
 router.get('/game', gameController.getGameById)
 router.get('/genre', gameController.getGamesByGenre)
+router.get('/search', gameController.searchGames)
 router.get('/games', gameController.getAllGames)
 
 export default router
