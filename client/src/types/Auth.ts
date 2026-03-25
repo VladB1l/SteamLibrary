@@ -3,5 +3,5 @@ export interface SteamUser {
   name: string;
   avatar: string;
   balance: number;
-  isActive: boolean;
+  purchasedGames?: number[];
 }

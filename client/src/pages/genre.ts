@@ -34,7 +34,7 @@ async function loadGamesPage(page: number): Promise<void> {
     document.getElementById("gamesLoader")!.style.display = "block";
     loadMoreBtn.disabled = true;
 
-    const url = `http://127.0.0.1:4000/api/genre?genre=${encodeURIComponent(currentGenre)}&page=${page}`;
+    const url = `https://steam-jet.vercel.app/api/genre?genre=${encodeURIComponent(currentGenre)}&page=${page}`;
     data = await fetchData(url);
     gamesListData = data.games;
 
@@ -70,7 +70,7 @@ function loadNextPage(): void {
 
 loadMoreBtn?.addEventListener("click", loadNextPage);
 window.addEventListener("DOMContentLoaded", async () => {
-  await initGenrePage();
   initHeader();
+  await initGenrePage();
   setupGameCardClick(gameListContainer);
 });

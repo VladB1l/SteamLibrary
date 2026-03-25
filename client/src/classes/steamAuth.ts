@@ -29,7 +29,7 @@ class SteamAuth {
     console.log(steamId);
 
     try {
-      const res = await fetch("http://127.0.0.1:4000/api/auth/profile", {
+      const res = await fetch("https://steam-jet.vercel.app/api/auth/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ steamId }),
@@ -37,7 +37,11 @@ class SteamAuth {
 
       const data = await res.json();
       if (data.success) {
-        localStorage.setItem("steamUser", JSON.stringify(data.user));
+        const userObj = {
+          ...data.user,
+          purchasedGames: data.user.purchasedGames || [],
+        };
+        localStorage.setItem("steamUser", JSON.stringify(userObj));
         window.location.href = "/index.html";
       }
     } catch (error) {
@@ -54,7 +58,7 @@ class SteamAuth {
 
     try {
       const user: SteamUser = JSON.parse(userStr);
-      return user.isActive ? user : null;
+      return user;
     } catch (e) {
       localStorage.removeItem("steamUser");
       return null;
@@ -74,7 +78,7 @@ class SteamAuth {
       ".userDropdown",
     ) as HTMLElement | null;
 
-    if (user && user.isActive) {
+    if (user) {
       if (balanceEl) balanceEl.style.display = "";
       if (balanceEl) balanceEl.textContent = `€${user.balance.toFixed(2)}`;
       if (avatarEl) {

@@ -12,12 +12,10 @@ async function getData(): Promise<void> {
   try {
     document.getElementById("gamesLoader")!.style.display = "block";
 
-    data = await fetchData("http://127.0.0.1:4000/api/top20");
+    data = await fetchData("https://steam-jet.vercel.app/api/top20");
     gamesListData = data.games;
 
     renderPage(gamesListData);
-
-    initHeader();
   } catch (e) {
     console.log(e);
   } finally {
@@ -53,6 +51,7 @@ function setupGenreLinks(): void {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initHeader();
   getData();
   setupGenreLinks();
   gameListContainer = document.querySelector(".gameList") as HTMLElement | null;

@@ -1,4 +1,5 @@
 import { type SteamGame } from "../types/SteamGame";
+import SteamAuth from "../classes/steamAuth";
 
 export function renderGame(game: SteamGame): HTMLElement {
   const gameCard = document.createElement("div");
@@ -8,6 +9,17 @@ export function renderGame(game: SteamGame): HTMLElement {
   const gameImg = document.createElement("div");
   gameImg.classList.add("gameImg");
   gameImg.style.backgroundImage = `url(${game.imageVer})`;
+
+  try {
+    const user = SteamAuth.getUser();
+    const purchased = !!user?.purchasedGames?.includes(game.sid);
+    if (purchased) {
+      const badge = document.createElement("div");
+      badge.classList.add("inLibraryBadge");
+      badge.textContent = "In Library";
+      gameImg.appendChild(badge);
+    }
+  } catch (e) {}
 
   const priceContainer = document.createElement("div");
   priceContainer.classList.add("gamePriceContainer");

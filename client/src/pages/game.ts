@@ -1,6 +1,7 @@
 import { type SteamGame, type MediaItem } from "../types/SteamGame";
 import { formatDate } from "../utils/dateUtils";
 import { initHeader } from "../components/header";
+import SteamAuth from "../classes/steamAuth";
 
 const gamePage = document.getElementById("gamePage") as HTMLElement;
 const loader = document.getElementById("gamesLoader") as HTMLElement;
@@ -76,8 +77,75 @@ function renderGamePage(game: SteamGame): void {
   document.getElementById("publishDate")!.textContent =
     formatDate(game.published_store) || "N/A";
 
-  const steamBtn = document.querySelector(".steamButton") as HTMLAnchorElement;
-  steamBtn.href = `${game.store_url}`;
+  const buyBtn = document.getElementById(
+    "buyButton",
+  ) as HTMLButtonElement | null;
+
+  function updateBuyButton(): void {
+    if (!buyBtn) return;
+    const user = SteamAuth.getUser();
+    const purchased = !!user?.purchasedGames?.includes(game.sid);
+
+    if (purchased) {
+      buyBtn.textContent = "In Library";
+      buyBtn.setAttribute("disabled", "true");
+      buyBtn.classList.add("inLibrary");
+    } else {
+      buyBtn.textContent = "Buy";
+      buyBtn.removeAttribute("disabled");
+      buyBtn.classList.remove("inLibrary");
+    }
+  }
+
+  updateBuyButton();
+
+  if (buyBtn) {
+    buyBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const price = game.current_price || 0;
+      const user = SteamAuth.getUser();
+
+      if (!user) {
+        window.location.href = SteamAuth.getLoginUrl();
+        return;
+      }
+
+      const purchased = !!user.purchasedGames?.includes(game.sid);
+      if (purchased) {
+        alert("Already in library");
+        updateBuyButton();
+        return;
+      }
+
+      const userBalanceCents = Math.round((user.balance || 0) * 100);
+
+      if (price === 0) {
+        user.purchasedGames = user.purchasedGames || [];
+        if (!user.purchasedGames.includes(game.sid))
+          user.purchasedGames.push(game.sid);
+        localStorage.setItem("steamUser", JSON.stringify(user));
+        SteamAuth.updateUserDisplay();
+        alert("Added to library");
+        updateBuyButton();
+        return;
+      }
+
+      if (userBalanceCents >= price) {
+        const newBalanceCents = userBalanceCents - price;
+        user.balance = newBalanceCents / 100;
+        user.purchasedGames = user.purchasedGames || [];
+        if (!user.purchasedGames.includes(game.sid))
+          user.purchasedGames.push(game.sid);
+        localStorage.setItem("steamUser", JSON.stringify(user));
+        SteamAuth.updateUserDisplay();
+        alert("Purchase successful!");
+        updateBuyButton();
+      } else {
+        alert("Insufficient balance");
+      }
+    });
+  }
 
   document.title = `${game.name} - Steam Top`;
 }
@@ -85,7 +153,6 @@ function renderGamePage(game: SteamGame): void {
 function renderMediaSlider(game: SteamGame): void {
   mediaItems = [];
   const media: MediaItem[] = [];
-
 
   const track = document.getElementById("sliderTrack") as HTMLElement;
   if (track) track.innerHTML = "";
@@ -102,7 +169,6 @@ function renderMediaSlider(game: SteamGame): void {
   ) as HTMLElement | null;
 
   if (media.length === 0) {
-
     if (mediaSliderEl) mediaSliderEl.style.display = "none";
 
     const currentEl = document.getElementById("currentSlide");

@@ -74,7 +74,7 @@ class GameSearch {
         limit: String(this.MAX_RESULTS),
       });
       const res = await fetch(
-        `http://127.0.0.1:4000/api/search?${params.toString()}`,
+        `https://steam-jet.vercel.app/api/search?${params.toString()}`,
         {
           signal,
         },
