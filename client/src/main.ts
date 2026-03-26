@@ -12,7 +12,9 @@ async function getData(): Promise<void> {
   try {
     document.getElementById("gamesLoader")!.style.display = "block";
 
-    data = await fetchData("https://steam-jet.vercel.app/api/top20");
+    data = await fetchData(
+      "https://steam-library-api-sandy.vercel.app/api/top20",
+    );
     gamesListData = data.games;
 
     renderPage(gamesListData);

@@ -29,11 +29,14 @@ class SteamAuth {
     console.log(steamId);
 
     try {
-      const res = await fetch("https://steam-jet.vercel.app/api/auth/profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ steamId }),
-      });
+      const res = await fetch(
+        "https://steam-library-api-sandy.vercel.app/api/auth/profile",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ steamId }),
+        },
+      );
 
       const data = await res.json();
       if (data.success) {

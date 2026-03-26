@@ -34,7 +34,7 @@ async function loadGamesPage(page: number): Promise<void> {
     document.getElementById("gamesLoader")!.style.display = "block";
     loadMoreBtn.disabled = true;
 
-    const url = `https://steam-jet.vercel.app/api/genre?genre=${encodeURIComponent(currentGenre)}&page=${page}`;
+    const url = `https://steam-library-api-sandy.vercel.app/api/genre?genre=${encodeURIComponent(currentGenre)}&page=${page}`;
     data = await fetchData(url);
     gamesListData = data.games;
 

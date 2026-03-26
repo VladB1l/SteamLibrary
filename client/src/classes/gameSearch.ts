@@ -74,7 +74,7 @@ class GameSearch {
         limit: String(this.MAX_RESULTS),
       });
       const res = await fetch(
-        `https://steam-jet.vercel.app/api/search?${params.toString()}`,
+        `https://steam-library-api-sandy.vercel.app/api/search?${params.toString()}`,
         {
           signal,
         },
